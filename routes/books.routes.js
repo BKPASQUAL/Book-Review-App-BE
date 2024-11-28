@@ -8,7 +8,7 @@ function bookRoutes() {
   router.use(express.json());
 
   router.get("/", bookController.getAllBooks);
-  // router.get("/:id", bookController.getBookById);
+  router.get("/:id", bookController.getBookById);
 
   router.use(authMiddleware);
 

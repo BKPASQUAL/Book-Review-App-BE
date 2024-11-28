@@ -37,7 +37,37 @@ async function getAllBooks() {
       }
 }
 
+//Get Book By Id
+async function getBookById(id) {
+    try {
+        const books = await Books.findOne({
+          where: {
+            id: id,
+          },
+        });
+    
+        if (!books || books.length === 0) {
+          return {
+            error: true,
+            status: 404,
+            payload: "No books Data Found",
+          };
+        }
+    
+        return {
+          error: false,
+          status: 200,
+          payload: books,
+        };
+      } catch (error) {
+        console.error("Error getting brands by ID service:", error);
+        throw error;
+      }
+    }
+
+
 module.exports = {
   addBook,
   getAllBooks,
+  getBookById
 };
