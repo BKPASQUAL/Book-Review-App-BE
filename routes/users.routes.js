@@ -7,7 +7,7 @@ function UsersRoutes() {
     router.use(express.json());
 
     router.post("/", userController.registerUser);
-    router.post("/sign-in", userController.loginUser);
+    router.post("/signIn", userController.loginUser);
     router.get("/:id", userController.getUserById);
     router.get("/", userController.getAllUsers);
     router.put("/:id", userController.updateUser);
