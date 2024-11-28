@@ -71,6 +71,7 @@ async function loginUser(req, res) {
                   res.status(200).json({
                     error: false,
                     payload: {
+                        userId: user.id, 
                         accessToken: accessToken,
                         roleId: user.roleId,
                     }

@@ -1,19 +1,24 @@
 const express = require("express");
 const userController = require("../controller/users.controller");
+const authMiddleware = require("../middleware/auth.middleware");
 
-function UsersRoutes() {
-    const router = express.Router();
+function getUserRoutes() {
+  const router = express.Router();
 
-    router.use(express.json());
+  router.use(express.json());
+  router.post("/signIn", userController.loginUser);
 
-    router.post("/", userController.registerUser);
-    router.post("/signIn", userController.loginUser);
-    router.get("/:id", userController.getUserById);
-    router.get("/", userController.getAllUsers);
-    router.put("/:id", userController.updateUser);
-    router.delete("/:id", userController.deleteUser);
+  router.use(authMiddleware);
 
-    return router;
+  router.post("/register", userController.registerUser);
+  router.get("/roles", userController.getUserRoles);
+  router.get("/", userController.getAllUsers);
+  router.get("/signgnedUser", userController.getSignedUser);
+  router.get("/:id", userController.getUserById);
+  router.patch("/:id", userController.updateUser);
+  router.delete("/:id", userController.deleteUser);
+
+  return router;
 }
 
-module.exports = UsersRoutes();
+module.exports = getUserRoutes();
