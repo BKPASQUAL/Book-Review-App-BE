@@ -1,6 +1,10 @@
 module.exports = (sequelize, DataTypes) => {
   const Users = sequelize.define("Users", {
-    name: {
+    firstName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    lastName: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -17,7 +21,6 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
   });
-
 
   return Users;
 };

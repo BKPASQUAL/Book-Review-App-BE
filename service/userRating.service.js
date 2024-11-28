@@ -48,7 +48,7 @@ async function getRatingsByBookId(bookId) {
       include: [
         {
           model: Users,
-          attributes: ["name", "username"],
+          attributes: ["firstName", "lastName", "username"], 
         },
       ],
     });

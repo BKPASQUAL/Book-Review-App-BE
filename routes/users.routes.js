@@ -7,10 +7,10 @@ function getUserRoutes() {
 
   router.use(express.json());
   router.post("/signIn", userController.loginUser);
+  router.post("/", userController.registerUser);
 
   router.use(authMiddleware);
 
-  router.post("/", userController.registerUser);
   router.get("/roles", userController.getUserRoles);
   router.get("/", userController.getAllUsers);
   router.get("/signedUser", userController.getSignedUser);
