@@ -18,27 +18,6 @@ module.exports = (sequelize, DataTypes) => {
     },
   });
 
-  Users.associate = function (models) {
-    // Many-to-Many with Books through UserRatings
-    Users.belongsToMany(models.Books, {
-      through: "UserRatings",
-      foreignKey: "userId",
-      onDelete: "CASCADE",
-    });
-
-    // One-to-Many with UserRatings
-    Users.hasMany(models.UserRatings, {
-      foreignKey: "userId",
-      onDelete: "CASCADE",
-    });
-
-    // Belongs to Roles
-    Users.belongsTo(models.Roles, {
-      as: "role",
-      foreignKey: "roleId",
-      onDelete: "CASCADE",
-    });
-  };
 
   return Users;
 };

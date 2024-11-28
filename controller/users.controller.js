@@ -6,39 +6,38 @@ const { sign } = require("jsonwebtoken");
 async function registerUser(req, res) {
     try {
         const userRole_id = req.user.roleId;
-        const {name,email,contactNo, gender, address, username, password, roleId } = req.body;
-        const image = req.file.path;
+        const { name, email, contactNo, gender, address, username, password, roleId } = req.body;
 
         if (![1].includes(userRole_id)) {
             return res.status(403).json({ error: true, payload: "Unauthorized. Only Admins can create users." });
         }
 
         // Validate user input
-        if (!(email && name  && password && username && roleId)) {
+        if (!(email && name && password && username && roleId)) {
             return res.status(400).json({ error: true, payload: "All input is required" });
         }
 
         const hashPassword = await bcrypt.hash(password, 10);
-        const result = await userService.registerUser(name,email,contactNo, gender, address, username, hashPassword, roleId, image);
-        
-        if(result.error) {
-            return res.status(result.status).json ({
+        const result = await userService.registerUser(name, email, contactNo, gender, address, username, hashPassword, roleId);
+
+        if (result.error) {
+            return res.status(result.status).json({
                 error: true,
                 payload: result.payload
-            })
+            });
         } else {
-            return res.status(result.status).json ({
+            return res.status(result.status).json({
                 error: false,
                 payload: result.payload
-            })
-        } 
+            });
+        }
 
     } catch (error) {
-        console.log("error in user controller: ", error)
+        console.log("Error in user controller: ", error);
         return res.status(500).json({
             error: true,
             payload: error
-        })
+        });
     }
 }
 
@@ -50,40 +49,39 @@ async function loginUser(req, res) {
         const user = await userService.loginUser(username);
 
         if (!user) {
-            return res.json({ 
+            return res.json({
                 error: true,
                 payload: "User Doesn't Exist"
-             });
-            
-          }
-        else {
+            });
+
+        } else {
             bcrypt.compare(password, user.password).then(async (match) => {
-                if (!match) {res.status(400).json({ 
-                    error: true,
-                    payload: "Wrong Username And Password Combination" 
-                });
-            }
-                else{
-                  const accessToken = sign(
-                    { username: user.username, id: user.id, roleId: user.roleId},
-                    "importantsecret"
-                  );
-                  res.status(200).json({
-                    error: false,
-                    payload: {
-                        userId: user.id, 
-                        accessToken: accessToken,
-                        roleId: user.roleId,
-                    }
-                  });
-                }  
-              });
-        }     
+                if (!match) {
+                    res.status(400).json({
+                        error: true,
+                        payload: "Wrong Username And Password Combination"
+                    });
+                } else {
+                    const accessToken = sign(
+                        { username: user.username, id: user.id, roleId: user.roleId },
+                        "importantsecret"
+                    );
+                    res.status(200).json({
+                        error: false,
+                        payload: {
+                            userId: user.id,
+                            accessToken: accessToken,
+                            roleId: user.roleId,
+                        }
+                    });
+                }
+            });
+        }
     } catch (error) {
         return res.status(500).json({
             error: true,
             payload: error
-        })
+        });
     }
 }
 
@@ -92,16 +90,16 @@ async function getUserRoles(req, res) {
     try {
         const result = await userService.getUserRoles();
 
-        if(result.error) {
-            return res.status(result.status).json ({
+        if (result.error) {
+            return res.status(result.status).json({
                 error: true,
                 payload: result.payload
-            })
+            });
         } else {
-            return res.status(result.status).json ({
+            return res.status(result.status).json({
                 error: false,
                 payload: result.payload
-            })
+            });
         }
 
     } catch (error) {
@@ -113,7 +111,7 @@ async function getUserRoles(req, res) {
     }
 }
 
-//Get All Users.
+//Get All Users
 async function getAllUsers(req, res) {
     try {
         const userRole_id = req.user.roleId;
@@ -124,16 +122,16 @@ async function getAllUsers(req, res) {
 
         const result = await userService.getAllUsers();
 
-        if(result.error) {
-            return res.status(result.status).json ({
+        if (result.error) {
+            return res.status(result.status).json({
                 error: true,
                 payload: result.payload
-            })
+            });
         } else {
-            return res.status(result.status).json ({
+            return res.status(result.status).json({
                 error: false,
                 payload: result.payload
-            })
+            });
         }
     } catch (error) {
         console.log("Error Getting Users Controller: ", error);
@@ -153,19 +151,19 @@ async function getUserById(req, res) {
         if (![1].includes(userRole_id)) {
             return res.status(403).json({ error: true, payload: "Unauthorized. Only Admins can view users." });
         }
-        
+
         const result = await userService.getUserById(id);
 
-        if(result.error) {
-            return res.status(result.status).json ({
+        if (result.error) {
+            return res.status(result.status).json({
                 error: true,
                 payload: result.payload
-            })
+            });
         } else {
-            return res.status(result.status).json ({
+            return res.status(result.status).json({
                 error: false,
                 payload: result.payload
-            })
+            });
         }
 
     } catch (error) {
@@ -180,20 +178,20 @@ async function getUserById(req, res) {
 //Get Signed User
 async function getSignedUser(req, res) {
     try {
-        const id = req.user.id
+        const id = req.user.id;
 
         const result = await userService.getUserById(id);
 
-        if(result.error) {
-            return res.status(result.status).json ({
+        if (result.error) {
+            return res.status(result.status).json({
                 error: true,
                 payload: result.payload
-            })
+            });
         } else {
-            return res.status(result.status).json ({
+            return res.status(result.status).json({
                 error: false,
                 payload: result.payload
-            })
+            });
         }
 
     } catch (error) {
@@ -215,11 +213,6 @@ async function updateUser(req, res) {
         // Only admins can update users
         if (![1].includes(userRole_id)) {
             return res.status(403).json({ error: true, payload: "Unauthorized. Only admins can update users." });
-        }
-
-        // Handle image upload
-        if (req.file) {
-            userData.image = req.file.path;
         }
 
         const result = await userService.updateUser(id, userData);
@@ -253,19 +246,19 @@ async function deleteUser(req, res) {
         if (![1].includes(userRole_id)) {
             return res.status(403).json({ error: true, payload: "Unauthorized. Only Admins can delete users." });
         }
-        
+
         const result = await userService.deleteUser(id);
 
-        if(result.error) {
-            return res.status(result.status).json ({
+        if (result.error) {
+            return res.status(result.status).json({
                 error: true,
                 payload: result.payload
-            })
+            });
         } else {
-            return res.status(result.status).json ({
+            return res.status(result.status).json({
                 error: false,
                 payload: result.payload
-            })
+            });
         }
     } catch (error) {
         console.log("Error Deleting User Controller: ", error);
@@ -276,7 +269,6 @@ async function deleteUser(req, res) {
     }
 }
 
-
 module.exports = {
     registerUser,
     loginUser,
@@ -286,4 +278,4 @@ module.exports = {
     getSignedUser,
     updateUser,
     deleteUser
-}
+};

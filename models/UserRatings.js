@@ -10,21 +10,7 @@ module.exports = (sequelize, DataTypes) => {
       },
     });
   
-    UserRatings.associate = function (models) {
-      // Belongs to Users
-      UserRatings.belongsTo(models.Users, {
-        foreignKey: "userId",
-        onDelete: "CASCADE",
-        as: "User", // Unique alias
-      });
-  
-      // Belongs to Books
-      UserRatings.belongsTo(models.Books, {
-        foreignKey: "bookId",
-        onDelete: "CASCADE",
-        as: "Book", // Unique alias
-      });
-    };
+
   
     return UserRatings;
   };
