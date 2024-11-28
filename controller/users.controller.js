@@ -132,7 +132,6 @@ async function updateUser(req, res) {
         const id = req.params.id;
         const userData = req.body;  // Get the updated user data from the request body
 
-        // If a password is provided, hash it
         if (userData.password) {
             userData.password = await bcrypt.hash(userData.password, 10);
         }
@@ -164,7 +163,6 @@ async function deleteUser(req, res) {
     try {
         const id = req.params.id;
 
-        // Find user by ID
         const user = await Users.findByPk(id);
 
         if (!user) {
@@ -174,7 +172,6 @@ async function deleteUser(req, res) {
             });
         }
 
-        // Delete the user
         await user.destroy();
 
         return res.status(200).json({
