@@ -8,11 +8,13 @@ function userRatingsRoutes() {
   router.use(express.json());
 
   router.get("/:id", userRatingsController.getRatingsByBookId);
-  router.get("/:bookId/:userId", userRatingsController.getUserRatingForBook);
 
   router.use(authMiddleware);
 
   router.post("/", userRatingsController.addRatingsAndReviews);
+  router.get("/:bookId/:userId", userRatingsController.getUserRatingForBook);
+  router.put("/:bookId/:userId", userRatingsController.editUserRatingForBook);
+  router.delete("/:bookId/:userId", userRatingsController.deleteUserRatingForBook);
 
   return router;
 }

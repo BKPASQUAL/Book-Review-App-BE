@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      commnet: {
+      comment: {
         type: DataTypes.STRING,
         allowNull: false,
       },
