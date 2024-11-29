@@ -8,6 +8,7 @@ function userRatingsRoutes() {
   router.use(express.json());
 
   router.get("/:id", userRatingsController.getRatingsByBookId);
+  router.get("/avgrating/:bookId", userRatingsController.getAverageRating);
 
   router.use(authMiddleware);
 
