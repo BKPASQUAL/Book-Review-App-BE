@@ -35,9 +35,12 @@ npx sequelize-cli db:seed:all
 Step 5: Add Book Data
 Use Postman or another API testing tool to add book data.
 
+Add Authorization Token
+Before making any POST requests, include the following Bearer token in the Authorization header:
+
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFudWthIiwiaWQiOjIzLCJyb2xlIjoiQWRtaW4iLCJyb2xlSWQiOjEsImlhdCI6MTY5NzM0OTg5NH0.IgdB0FS-QuGx7JxttBLCFt4jV6JvVRGgxxWwWUS9AMY
 
 Make a POST request to:
-
 bash
 Copy code
 http://localhost:4003/books
@@ -54,6 +57,4 @@ Copy code
   "bookPDFURL": "https://example.com/pdfs/great-gatsby.pdf"
 }
 
-
 Before adding actual data, you can add some mock data to test the API and database connection.
-
